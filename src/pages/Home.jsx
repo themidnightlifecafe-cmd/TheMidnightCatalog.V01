@@ -49,7 +49,7 @@ export default function Home() {
           <h1 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-primary">
             Your cozy<br />reading corner
           </h1>
-          <p className="text-foreground/70 mt-3 text-sm md:text-base leading-relaxed">
+          <p className="mt-3 text-sm md:text-base leading-relaxed text-slate-700">
             Track your books, share your reads with friends, and discover local bookstores. Your literary journey starts here.
           </p>
 
@@ -88,7 +88,7 @@ export default function Home() {
           <div key={i} className="p-5 rounded-3xl flex flex-col items-center text-center" style={{ background: '#fde8d8' }}>
             <stat.icon className={`w-5 h-5 ${stat.iconColor} mb-2`} />
             <p className="text-2xl font-heading font-bold text-primary">{stat.value}</p>
-            <p className="text-xs text-foreground/60 mt-0.5">{stat.label}</p>
+            <p className="text-xs text-slate-600 font-medium mt-0.5">{stat.label}</p>
           </div>
         ))}
       </motion.section>
