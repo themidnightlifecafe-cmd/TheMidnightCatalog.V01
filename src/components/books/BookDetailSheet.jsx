@@ -8,6 +8,7 @@ import { BookOpen, Star, Pencil, Trash2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import BookTagSuggester, { TagBadge } from './BookTagSuggester';
+import BookFileViewer from './BookFileViewer';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 
@@ -25,7 +26,7 @@ export default function BookDetailSheet({ book, onClose, onEdit, onUpdateProgres
 
   return (
     <Sheet open={!!book} onOpenChange={() => onClose()}>
-      <SheetContent className="overflow-y-auto">
+      <SheetContent className="overflow-y-auto sm:max-w-2xl w-full">
         <SheetHeader>
           <SheetTitle className="font-heading">{book.title}</SheetTitle>
         </SheetHeader>
@@ -113,6 +114,12 @@ export default function BookDetailSheet({ book, onClose, onEdit, onUpdateProgres
               currentTags={book.tags || []}
               onTagsChange={(tags) => updateTagsMutation.mutate(tags)}
             />
+          </div>
+
+          {/* File attachment & viewer */}
+          <div>
+            <Label className="text-xs text-muted-foreground mb-2 block">Attached File</Label>
+            <BookFileViewer book={book} />
           </div>
 
           {/* Notes */}

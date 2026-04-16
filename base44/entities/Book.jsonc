@@ -61,6 +61,22 @@
       "type": "string",
       "format": "date",
       "description": "When finished reading"
+    },
+    "file_url": {
+      "type": "string",
+      "description": "URL of attached PDF or EPUB file"
+    },
+    "file_name": {
+      "type": "string",
+      "description": "Original filename of the attached file"
+    },
+    "file_type": {
+      "type": "string",
+      "enum": [
+        "pdf",
+        "epub"
+      ],
+      "description": "Type of attached file"
     }
   },
   "required": [
