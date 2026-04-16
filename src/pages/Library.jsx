@@ -36,18 +36,30 @@ export default function Library() {
 
   const updateMutation = useMutation({
     mutationFn: ({ id, data }) => base44.entities.Book.update(id, data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['books'] });
+    onMutate: async ({ id, data }) => {
+      await queryClient.cancelQueries({ queryKey: ['books'] });
+      const prev = queryClient.getQueryData(['books']);
+      queryClient.setQueryData(['books'], (old = []) =>
+        old.map(b => b.id === id ? { ...b, ...data } : b)
+      );
       setSelectedBook(null);
+      return { prev };
     },
+    onError: (_err, _vars, ctx) => queryClient.setQueryData(['books'], ctx?.prev),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ['books'] }),
   });
 
   const deleteMutation = useMutation({
     mutationFn: (id) => base44.entities.Book.delete(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['books'] });
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({ queryKey: ['books'] });
+      const prev = queryClient.getQueryData(['books']);
+      queryClient.setQueryData(['books'], (old = []) => old.filter(b => b.id !== id));
       setSelectedBook(null);
+      return { prev };
     },
+    onError: (_err, _vars, ctx) => queryClient.setQueryData(['books'], ctx?.prev),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ['books'] }),
   });
 
   const handleSaveBook = (data) => {

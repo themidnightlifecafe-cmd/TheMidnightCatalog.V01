@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { BookOpen, Home, Users, MapPin, Library, NotebookPen, Trophy, Sparkles, Coffee, BookMarked } from 'lucide-react';
+import { BookOpen, Home, Users, MapPin, Library, NotebookPen, Trophy, Sparkles, Coffee, BookMarked, Settings } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import PixelSprites from '@/components/PixelSprites';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -14,6 +14,7 @@ const navItems = [
   { path: '/bookstores', icon: MapPin, label: 'Bookstores' },
   { path: '/evening-latte', icon: Coffee, label: 'Evening Latte' },
   { path: '/midnight-library', icon: BookMarked, label: 'Midnight Library' },
+  { path: '/settings', icon: Settings, label: 'Settings' },
 ];
 
 export default function AppLayout() {

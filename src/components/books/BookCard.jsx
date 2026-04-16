@@ -21,7 +21,16 @@ export default function BookCard({ book, onClick, onUpdateProgress, variant = 'd
   const queryClient = useQueryClient();
   const saveNoteMutation = useMutation({
     mutationFn: (data) => base44.entities.ReadingNote.create(data),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['reading-notes'] }),
+    onMutate: async (data) => {
+      await queryClient.cancelQueries({ queryKey: ['reading-notes'] });
+      const prev = queryClient.getQueryData(['reading-notes']);
+      queryClient.setQueryData(['reading-notes'], (old = []) => [
+        ...old, { ...data, id: `temp-${Date.now()}`, created_date: new Date().toISOString() }
+      ]);
+      return { prev };
+    },
+    onError: (_err, _vars, ctx) => queryClient.setQueryData(['reading-notes'], ctx?.prev),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ['reading-notes'] }),
   });
 
   const [editing, setEditing] = useState(false);

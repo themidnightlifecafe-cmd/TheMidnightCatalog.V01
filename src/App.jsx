@@ -15,6 +15,7 @@ import Challenges from '@/pages/Challenges';
 import Recommendations from '@/pages/Recommendations';
 import EveningLatte from '@/pages/EveningLatte';
 import MidnightLibrary from '@/pages/MidnightLibrary';
+import Settings from '@/pages/Settings';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -52,6 +53,7 @@ const AuthenticatedApp = () => {
         <Route path="/recommendations" element={<Recommendations />} />
         <Route path="/evening-latte" element={<EveningLatte />} />
         <Route path="/midnight-library" element={<MidnightLibrary />} />
+        <Route path="/settings" element={<Settings />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
