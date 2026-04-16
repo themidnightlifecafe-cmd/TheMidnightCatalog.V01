@@ -28,30 +28,31 @@ export default function Home() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="relative rounded-3xl bg-gradient-to-br from-primary/10 via-accent/5 to-secondary/10 p-8 md:p-12 overflow-hidden"
+        className="relative rounded-3xl overflow-hidden p-8 md:p-12"
+        style={{ background: 'linear-gradient(135deg, #fde8d8 0%, #f5e6f5 40%, #d8f0e8 100%)' }}
       >
-        <div className="absolute top-4 right-4 md:top-8 md:right-8 opacity-10">
-          <BookOpen className="w-32 h-32 md:w-48 md:h-48 text-primary" />
+        <div className="absolute top-4 right-6 md:top-8 md:right-10 opacity-20">
+          <BookOpen className="w-28 h-28 md:w-40 md:h-40 text-primary" />
         </div>
         <div className="relative z-10 max-w-lg">
-          <h1 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
+          <h1 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-primary">
             Your cozy<br />reading corner
           </h1>
-          <p className="text-muted-foreground mt-3 text-sm md:text-base leading-relaxed">
+          <p className="text-foreground/70 mt-3 text-sm md:text-base leading-relaxed">
             Track your books, share your reads with friends, and discover local bookstores. Your literary journey starts here.
           </p>
 
           {/* Website Connector */}
-          <div className="mt-6 p-4 rounded-2xl bg-card/80 backdrop-blur-sm border border-border">
+          <div className="mt-6 p-4 rounded-2xl bg-white/70 backdrop-blur-sm border border-white/80">
             <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Connect Your Website</p>
             <div className="flex gap-2">
               <Input
                 placeholder="https://your-website.com"
                 value={websiteUrl}
                 onChange={(e) => setWebsiteUrl(e.target.value)}
-                className="flex-1"
+                className="flex-1 bg-white/80"
               />
-              <Button size="sm" className="gap-1.5">
+              <Button size="sm" className="gap-1.5 bg-accent hover:bg-accent/90 text-white">
                 <ExternalLink className="w-4 h-4" />
                 Connect
               </Button>
@@ -65,20 +66,18 @@ export default function Home() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.1 }}
-        className="grid grid-cols-2 md:grid-cols-4 gap-3"
+        className="grid grid-cols-2 md:grid-cols-4 gap-4"
       >
         {[
-          { icon: BookOpen, label: 'Currently Reading', value: currentlyReading.length, color: 'text-primary bg-primary/10' },
-          { icon: TrendingUp, label: 'Books This Year', value: '12', color: 'text-secondary bg-secondary/10' },
-          { icon: Users, label: 'Friends Reading', value: '8', color: 'text-accent bg-accent/10' },
-          { icon: MapPin, label: 'Nearby Stores', value: '5', color: 'text-chart-5 bg-chart-5/10' },
+          { icon: BookOpen, label: 'Currently Reading', value: currentlyReading.length, iconColor: 'text-primary' },
+          { icon: TrendingUp, label: 'Books This Year', value: '12', iconColor: 'text-secondary' },
+          { icon: Users, label: 'Friends Reading', value: '8', iconColor: 'text-primary' },
+          { icon: MapPin, label: 'Nearby Stores', value: '5', iconColor: 'text-accent' },
         ].map((stat, i) => (
-          <div key={i} className="p-4 rounded-2xl bg-card border border-border">
-            <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${stat.color.split(' ')[1]}`}>
-              <stat.icon className={`w-4 h-4 ${stat.color.split(' ')[0]}`} />
-            </div>
-            <p className="text-2xl font-heading font-bold mt-2">{stat.value}</p>
-            <p className="text-xs text-muted-foreground">{stat.label}</p>
+          <div key={i} className="p-5 rounded-3xl flex flex-col items-center text-center" style={{ background: '#fde8d8' }}>
+            <stat.icon className={`w-5 h-5 ${stat.iconColor} mb-2`} />
+            <p className="text-2xl font-heading font-bold text-primary">{stat.value}</p>
+            <p className="text-xs text-foreground/60 mt-0.5">{stat.label}</p>
           </div>
         ))}
       </motion.section>
@@ -130,8 +129,8 @@ export default function Home() {
         {recentUpdates.length > 0 ? (
           <div className="space-y-3">
             {recentUpdates.map((update) => (
-              <div key={update.id} className="flex items-center gap-3 p-3 rounded-xl bg-card border border-border">
-                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <div key={update.id} className="flex items-center gap-3 p-3 rounded-2xl" style={{ background: '#fde8d8' }}>
+                <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
                   <span className="text-xs font-bold text-primary">
                     {(update.user_name || '?')[0].toUpperCase()}
                   </span>
