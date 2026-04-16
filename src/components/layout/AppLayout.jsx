@@ -22,10 +22,12 @@ export default function AppLayout() {
       {/* Desktop Sidebar */}
       <aside className="hidden md:flex fixed left-0 top-0 bottom-0 w-64 flex-col border-r border-border bg-sidebar p-6 z-40">
         <Link to="/" className="flex items-center gap-3 mb-10">
-          <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-            <BookOpen className="w-5 h-5 text-primary-foreground" />
-          </div>
-          <span className="font-heading text-xl font-bold text-foreground">Bookish</span>
+          <img
+            src="https://media.base44.com/images/public/69e02868450534511f604ccd/7a3d8777e_generated_image.png"
+            alt="The Midnight Life Cafe owl"
+            className="w-12 h-12 rounded-xl object-cover flex-shrink-0"
+          />
+          <span className="font-heading text-base font-bold text-foreground leading-tight">The Midnight Life Cafe</span>
         </Link>
 
         <nav className="flex flex-col gap-1.5 flex-1">
