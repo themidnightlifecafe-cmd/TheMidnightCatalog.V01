@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Plus, Search, BookOpen, Check, Bookmark, Library as LibraryIcon, Shuffle, Globe, ScanLine } from 'lucide-react';
 import BookCard from '@/components/books/BookCard';
@@ -138,23 +137,27 @@ export default function Library() {
             className="pl-9"
           />
         </div>
-        <Tabs value={tab} onValueChange={setTab}>
-          <TabsList className="bg-muted">
-            <TabsTrigger value="all" className="text-xs">All ({tabCounts.all})</TabsTrigger>
-            <TabsTrigger value="reading" className="text-xs gap-1">
-              <BookOpen className="w-3 h-3" /> Reading ({tabCounts.reading})
-            </TabsTrigger>
-            <TabsTrigger value="completed" className="text-xs gap-1">
-              <Check className="w-3 h-3" /> Done ({tabCounts.completed})
-            </TabsTrigger>
-            <TabsTrigger value="want_to_read" className="text-xs gap-1">
-              <Bookmark className="w-3 h-3" /> Wishlist ({tabCounts.want_to_read})
-            </TabsTrigger>
-            <TabsTrigger value="tbr_spinner" className="text-xs gap-1">
-              <Shuffle className="w-3 h-3" /> TBR Spin
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
+        <div className="inline-flex items-center gap-1 rounded-lg bg-muted p-1">
+          {[
+            { value: 'all', label: `All (${tabCounts.all})` },
+            { value: 'reading', label: `Reading (${tabCounts.reading})`, icon: <BookOpen className="w-3 h-3" /> },
+            { value: 'completed', label: `Done (${tabCounts.completed})`, icon: <Check className="w-3 h-3" /> },
+            { value: 'want_to_read', label: `Wishlist (${tabCounts.want_to_read})`, icon: <Bookmark className="w-3 h-3" /> },
+            { value: 'tbr_spinner', label: 'TBR Spin', icon: <Shuffle className="w-3 h-3" /> },
+          ].map(({ value, label, icon }) => (
+            <button
+              key={value}
+              onClick={() => setTab(value)}
+              className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+                tab === value
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              {icon}{label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {tab === 'tbr_spinner' ? (
