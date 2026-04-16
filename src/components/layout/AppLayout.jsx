@@ -1,6 +1,7 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { BookOpen, Home, Users, MapPin, Library, NotebookPen, Trophy, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import PixelSprites from '@/components/PixelSprites';
 
 const navItems = [
   { path: '/', icon: Home, label: 'Home' },
@@ -17,6 +18,7 @@ export default function AppLayout() {
 
   return (
     <div className="min-h-screen bg-background">
+      <PixelSprites />
       {/* Desktop Sidebar */}
       <aside className="hidden md:flex fixed left-0 top-0 bottom-0 w-64 flex-col border-r border-border bg-sidebar p-6 z-40">
         <Link to="/" className="flex items-center gap-3 mb-10">
