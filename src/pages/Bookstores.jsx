@@ -3,7 +3,6 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Search, MapPin, Plus, Store, Library as LibraryIcon, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import BookstoreCard from '@/components/bookstores/BookstoreCard';
@@ -65,16 +64,26 @@ export default function Bookstores() {
             className="pl-9"
           />
         </div>
-        <Tabs value={typeFilter} onValueChange={setTypeFilter}>
-          <TabsList className="bg-muted">
-            <TabsTrigger value="all" className="text-xs">All</TabsTrigger>
-            <TabsTrigger value="independent" className="text-xs">Independent</TabsTrigger>
-            <TabsTrigger value="library" className="text-xs gap-1">
-              <LibraryIcon className="w-3 h-3" /> Library
-            </TabsTrigger>
-            <TabsTrigger value="used" className="text-xs">Used</TabsTrigger>
-          </TabsList>
-        </Tabs>
+        <div className="inline-flex items-center gap-1 rounded-lg bg-muted p-1">
+          {[
+            { value: 'all', label: 'All' },
+            { value: 'independent', label: 'Independent' },
+            { value: 'library', label: 'Library', icon: <LibraryIcon className="w-3 h-3" /> },
+            { value: 'used', label: 'Used' },
+          ].map(({ value, label, icon }) => (
+            <button
+              key={value}
+              onClick={() => setTypeFilter(value)}
+              className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+                typeFilter === value
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              {icon}{label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {isLoading ? (
