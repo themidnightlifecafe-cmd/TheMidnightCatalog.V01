@@ -143,7 +143,7 @@ export default function PixelSprites() {
       vy: (Math.random() - 0.5) * 0.5,
       color: COLORS[(i * 3 + Math.floor(Math.random() * COLORS.length)) % COLORS.length],
       scale: Math.random() > 0.5 ? 2 : 3,
-      opacity: 0.12 + Math.random() * 0.18,
+      opacity: 0.35 + Math.random() * 0.30,
       phase: Math.random() * Math.PI * 2,
       speed: 0.4 + Math.random() * 0.6,
     }));
