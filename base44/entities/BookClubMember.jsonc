@@ -1,0 +1,28 @@
+{
+  "name": "BookClubMember",
+  "type": "object",
+  "properties": {
+    "club_id": {
+      "type": "string"
+    },
+    "club_name": {
+      "type": "string"
+    },
+    "member_name": {
+      "type": "string"
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "admin",
+        "member"
+      ],
+      "default": "member"
+    }
+  },
+  "required": [
+    "club_id",
+    "club_name",
+    "member_name"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "name": "BookClub",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Club name"
+    },
+    "description": {
+      "type": "string",
+      "description": "What the club is about"
+    },
+    "cover_url": {
+      "type": "string",
+      "description": "Club cover image"
+    },
+    "join_code": {
+      "type": "string",
+      "description": "Short code to join"
+    },
+    "creator_name": {
+      "type": "string"
+    },
+    "is_public": {
+      "type": "boolean",
+      "default": true
+    },
+    "current_book_title": {
+      "type": "string",
+      "description": "Book the club is currently reading"
+    },
+    "current_book_author": {
+      "type": "string"
+    },
+    "current_book_cover": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "join_code"
+  ]
+}

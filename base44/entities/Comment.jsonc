@@ -1,0 +1,29 @@
+{
+  "name": "Comment",
+  "type": "object",
+  "properties": {
+    "parent_id": {
+      "type": "string",
+      "description": "ID of the SocialUpdate or BookReview being commented on"
+    },
+    "parent_type": {
+      "type": "string",
+      "enum": [
+        "social_update",
+        "book_review"
+      ]
+    },
+    "author_name": {
+      "type": "string"
+    },
+    "content": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "parent_id",
+    "parent_type",
+    "author_name",
+    "content"
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "name": "BookReview",
+  "type": "object",
+  "properties": {
+    "book_title": {
+      "type": "string"
+    },
+    "book_author": {
+      "type": "string"
+    },
+    "book_cover_url": {
+      "type": "string"
+    },
+    "reviewer_name": {
+      "type": "string"
+    },
+    "rating": {
+      "type": "number",
+      "description": "1-5 stars"
+    },
+    "review_text": {
+      "type": "string"
+    },
+    "club_id": {
+      "type": "string",
+      "description": "If posted to a club"
+    },
+    "club_name": {
+      "type": "string"
+    },
+    "likes": {
+      "type": "number",
+      "default": 0
+    },
+    "liked_by": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Emails of users who liked"
+    }
+  },
+  "required": [
+    "book_title",
+    "reviewer_name",
+    "rating"
+  ]
+}
