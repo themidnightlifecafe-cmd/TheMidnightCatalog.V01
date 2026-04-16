@@ -114,15 +114,15 @@ export default function Library() {
           ))}
         </div>
       ) : filtered.length > 0 ? (
-        <motion.div layout className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           <AnimatePresence>
             {filtered.map((book) => (
-              <motion.div key={book.id} layout initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <motion.div key={book.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                 <BookCard book={book} onClick={setSelectedBook} />
               </motion.div>
             ))}
           </AnimatePresence>
-        </motion.div>
+        </div>
       ) : (
         <div className="text-center py-16">
           <LibraryIcon className="w-12 h-12 mx-auto text-muted-foreground/30" />
