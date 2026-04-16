@@ -1,5 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
+import PullToRefreshWrapper from '@/components/ui/PullToRefreshWrapper';
 import { BookOpen, Star, MessageCircle, TrendingUp, Check, Bookmark } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
@@ -68,7 +69,7 @@ function ActivityItem({ update }) {
 
         <button
           onClick={() => setShowComments(v => !v)}
-          className="mt-2 flex items-center gap-1 text-xs text-muted-foreground hover:text-primary transition-colors"
+          className="mt-1 flex items-center gap-1 text-xs text-muted-foreground hover:text-primary transition-colors min-h-[44px] min-w-[44px]"
         >
           <MessageCircle className="w-3.5 h-3.5" />
           {showComments ? 'Hide comments' : 'Comment'}
@@ -85,6 +86,7 @@ function ActivityItem({ update }) {
 }
 
 export default function FriendActivityFeed() {
+  const queryClient = useQueryClient();
   const { data: updates = [], isLoading } = useQuery({
     queryKey: ['social-updates'],
     queryFn: () => base44.entities.SocialUpdate.list('-created_date', 20),
@@ -103,8 +105,10 @@ export default function FriendActivityFeed() {
   );
 
   return (
-    <div className="space-y-3">
-      {updates.map(u => <ActivityItem key={u.id} update={u} />)}
-    </div>
+    <PullToRefreshWrapper onRefresh={() => queryClient.invalidateQueries({ queryKey: ['social-updates'] })}>
+      <div className="space-y-3">
+        {updates.map(u => <ActivityItem key={u.id} update={u} />)}
+      </div>
+    </PullToRefreshWrapper>
   );
 }

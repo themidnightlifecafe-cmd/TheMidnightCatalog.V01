@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,6 +12,7 @@ import TBRSpinner from '@/components/books/TBRSpinner';
 import ExternalBookSearch from '@/components/books/ExternalBookSearch';
 import ISBNScanner from '@/components/books/ISBNScanner';
 import { TagBadge } from '@/components/books/BookTagSuggester';
+import PullToRefreshWrapper from '@/components/ui/PullToRefreshWrapper';
 
 export default function Library() {
   const [tab, setTab] = useState('all');
@@ -21,6 +23,8 @@ export default function Library() {
   const [scannerOpen, setScannerOpen] = useState(false);
   const [editBook, setEditBook] = useState(null);
   const [selectedBook, setSelectedBook] = useState(null);
+  const navigate = useNavigate();
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   const queryClient = useQueryClient();
 
@@ -97,6 +101,14 @@ export default function Library() {
     updateMutation.mutate({ id: book.id, data: { status: 'reading', start_date: new Date().toISOString().split('T')[0] } });
   };
 
+  const handleBookClick = (book) => {
+    if (window.innerWidth < 768) {
+      navigate(`/library/${book.id}`);
+    } else {
+      setSelectedBook(book);
+    }
+  };
+
   return (
     <div className="p-6 md:p-10 max-w-5xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
@@ -123,13 +135,13 @@ export default function Library() {
           {activeTag && (
             <button
               onClick={() => setActiveTag(null)}
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-primary text-primary-foreground"
+              className="inline-flex items-center gap-1 px-2.5 py-1 min-h-[44px] rounded-full text-xs font-medium bg-primary text-primary-foreground"
             >
               Clear filter ×
             </button>
           )}
           {allTags.map(tag => (
-            <button key={tag} onClick={() => setActiveTag(t => t === tag ? null : tag)}>
+            <button key={tag} onClick={() => setActiveTag(t => t === tag ? null : tag)} className="min-h-[44px] flex items-center">
               <TagBadge
                 tag={tag}
                 className={activeTag === tag ? 'ring-2 ring-primary ring-offset-1 cursor-pointer' : 'cursor-pointer hover:opacity-80'}
@@ -160,7 +172,7 @@ export default function Library() {
             <button
               key={value}
               onClick={() => setTab(value)}
-              className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+              className={`inline-flex items-center gap-1 px-3 py-1.5 min-h-[44px] rounded-md text-xs font-medium transition-all ${
                 tab === value
                   ? 'bg-background text-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
@@ -181,16 +193,18 @@ export default function Library() {
           ))}
         </div>
       ) : filtered.length > 0 ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          {filtered.map((book) => (
-            <BookCard
-              key={book.id}
-              book={book}
-              onClick={setSelectedBook}
-              onUpdateProgress={(id, page) => updateMutation.mutate({ id, data: { current_page: page } })}
-            />
-          ))}
-        </div>
+        <PullToRefreshWrapper onRefresh={() => queryClient.invalidateQueries({ queryKey: ['books'] })}>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            {filtered.map((book) => (
+              <BookCard
+                key={book.id}
+                book={book}
+                onClick={handleBookClick}
+                onUpdateProgress={(id, page) => updateMutation.mutate({ id, data: { current_page: page } })}
+              />
+            ))}
+          </div>
+        </PullToRefreshWrapper>
       ) : null}
 
       {tab !== 'tbr_spinner' && !isLoading && filtered.length === 0 && (

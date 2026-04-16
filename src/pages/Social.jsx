@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useAuth } from '@/lib/AuthContext';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -25,7 +26,16 @@ export default function Social() {
   const [shareOpen, setShareOpen] = useState(false);
   const [selectedClub, setSelectedClub] = useState(null);
 
+  const navigate = useNavigate();
   const userName = user?.full_name || user?.email?.split('@')[0] || 'Anonymous';
+
+  const handleOpenClub = (club) => {
+    if (window.innerWidth < 768) {
+      navigate(`/social/club/${club.id}`);
+    } else {
+      setSelectedClub(club);
+    }
+  };
 
   const { data: clubs = [] } = useQuery({
     queryKey: ['book-clubs'],
@@ -154,7 +164,7 @@ export default function Social() {
                     memberCount={allMembers.filter(m => m.club_id === club.id).length}
                     isMember
                     isAdmin={club.created_by === user?.email}
-                    onOpen={setSelectedClub}
+                    onOpen={handleOpenClub}
                     onJoin={() => {}}
                   />
                 ))}
@@ -185,7 +195,7 @@ export default function Social() {
                     club={club}
                     memberCount={allMembers.filter(m => m.club_id === club.id).length}
                     isMember={false}
-                    onOpen={setSelectedClub}
+                    onOpen={handleOpenClub}
                     onJoin={(club) => {
                       // Direct join
                       base44.entities.BookClubMember.create({ club_id: club.id, club_name: club.name, member_name: userName, role: 'member' })

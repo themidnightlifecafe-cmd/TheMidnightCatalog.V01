@@ -67,20 +67,20 @@ export default function AppLayout() {
 
       {/* Mobile Bottom Nav */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-card border-t border-border z-40 px-2 pb-safe">
-        <div className="flex justify-around py-2">
+        <div className="flex justify-around py-1">
           {navItems.map((item) => {
-            const isActive = location.pathname === item.path;
+            const isActive = location.pathname === item.path || location.pathname.startsWith(item.path + '/');
             return (
               <Link
                 key={item.path}
                 to={item.path}
                 className={cn(
-                  "flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-all",
+                  "flex flex-col items-center gap-0.5 min-w-[44px] min-h-[44px] px-2 py-1.5 rounded-xl transition-all justify-center",
                   isActive ? "text-primary" : "text-muted-foreground"
                 )}
               >
                 <item.icon className={cn("w-5 h-5", isActive && "scale-110")} />
-                <span className="text-[10px] font-medium">{item.label}</span>
+                <span className="text-[9px] font-medium">{item.label}</span>
               </Link>
             );
           })}
