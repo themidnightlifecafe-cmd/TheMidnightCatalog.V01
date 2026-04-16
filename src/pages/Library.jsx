@@ -4,16 +4,18 @@ import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
-import { Plus, Search, BookOpen, Check, Bookmark, Library as LibraryIcon, Shuffle } from 'lucide-react';
+import { Plus, Search, BookOpen, Check, Bookmark, Library as LibraryIcon, Shuffle, Globe } from 'lucide-react';
 import BookCard from '@/components/books/BookCard';
 import AddBookDialog from '@/components/books/AddBookDialog';
 import BookDetailSheet from '@/components/books/BookDetailSheet';
 import TBRSpinner from '@/components/books/TBRSpinner';
+import ExternalBookSearch from '@/components/books/ExternalBookSearch';
 
 export default function Library() {
   const [tab, setTab] = useState('all');
   const [search, setSearch] = useState('');
   const [addOpen, setAddOpen] = useState(false);
+  const [externalSearchOpen, setExternalSearchOpen] = useState(false);
   const [editBook, setEditBook] = useState(null);
   const [selectedBook, setSelectedBook] = useState(null);
 
@@ -82,9 +84,14 @@ export default function Library() {
           <h1 className="font-heading text-2xl md:text-3xl font-bold">My Library</h1>
           <p className="text-sm text-muted-foreground mt-1">{books.length} books in your collection</p>
         </div>
-        <Button onClick={() => { setEditBook(null); setAddOpen(true); }} className="gap-2">
-          <Plus className="w-4 h-4" /> Add Book
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={() => setExternalSearchOpen(true)} className="gap-2">
+            <Globe className="w-4 h-4" /> Find Books
+          </Button>
+          <Button onClick={() => { setEditBook(null); setAddOpen(true); }} className="gap-2">
+            <Plus className="w-4 h-4" /> Add Book
+          </Button>
+        </div>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3">
@@ -140,12 +147,21 @@ export default function Library() {
       {tab !== 'tbr_spinner' && !isLoading && filtered.length === 0 && (
         <div className="text-center py-16">
           <LibraryIcon className="w-12 h-12 mx-auto text-muted-foreground/30" />
-          <p className="text-muted-foreground mt-3">No books found</p>
-          <Button variant="outline" className="mt-4" onClick={() => { setEditBook(null); setAddOpen(true); }}>
-            Add your first book
-          </Button>
+          <p className="text-muted-foreground mt-3">{search ? `No books matching "${search}"` : 'No books found'}</p>
+          <div className="flex items-center justify-center gap-2 mt-4">
+            {search && (
+              <Button variant="outline" onClick={() => setExternalSearchOpen(true)} className="gap-2">
+                <Globe className="w-4 h-4" /> Search "{search}" online
+              </Button>
+            )}
+            <Button variant="outline" onClick={() => { setEditBook(null); setAddOpen(true); }}>
+              Add manually
+            </Button>
+          </div>
         </div>
       )}
+
+      <ExternalBookSearch open={externalSearchOpen} onOpenChange={setExternalSearchOpen} />
 
       <AddBookDialog
         open={addOpen}
