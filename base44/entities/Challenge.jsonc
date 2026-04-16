@@ -1,0 +1,58 @@
+{
+  "name": "Challenge",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Challenge name"
+    },
+    "description": {
+      "type": "string",
+      "description": "What the challenge is about"
+    },
+    "challenge_type": {
+      "type": "string",
+      "enum": [
+        "goal_books",
+        "goal_pages",
+        "type_genre",
+        "speed"
+      ],
+      "description": "Type of challenge"
+    },
+    "target_value": {
+      "type": "number",
+      "description": "Target number (books, pages, or days)"
+    },
+    "target_genre": {
+      "type": "string",
+      "description": "For type challenges - required genre"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "join_code": {
+      "type": "string",
+      "description": "Short code friends can use to join"
+    },
+    "creator_name": {
+      "type": "string",
+      "description": "Display name of creator"
+    },
+    "is_public": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "title",
+    "challenge_type",
+    "target_value",
+    "join_code"
+  ]
+}

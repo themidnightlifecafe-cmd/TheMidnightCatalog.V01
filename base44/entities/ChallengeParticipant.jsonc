@@ -1,0 +1,36 @@
+{
+  "name": "ChallengeParticipant",
+  "type": "object",
+  "properties": {
+    "challenge_id": {
+      "type": "string",
+      "description": "ID of the challenge"
+    },
+    "challenge_title": {
+      "type": "string",
+      "description": "Denormalized title"
+    },
+    "participant_name": {
+      "type": "string",
+      "description": "Display name"
+    },
+    "progress": {
+      "type": "number",
+      "default": 0,
+      "description": "Current progress value (books read, pages read, etc.)"
+    },
+    "completed": {
+      "type": "boolean",
+      "default": false
+    },
+    "completed_date": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": [
+    "challenge_id",
+    "challenge_title",
+    "participant_name"
+  ]
+}
