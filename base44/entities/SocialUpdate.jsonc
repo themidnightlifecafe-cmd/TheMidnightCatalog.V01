@@ -1,0 +1,54 @@
+{
+  "name": "SocialUpdate",
+  "type": "object",
+  "properties": {
+    "book_title": {
+      "type": "string",
+      "description": "Title of the book being shared"
+    },
+    "book_author": {
+      "type": "string",
+      "description": "Author of the book"
+    },
+    "book_cover_url": {
+      "type": "string",
+      "description": "Cover image URL"
+    },
+    "message": {
+      "type": "string",
+      "description": "User's message or update"
+    },
+    "update_type": {
+      "type": "string",
+      "enum": [
+        "started",
+        "finished",
+        "progress",
+        "recommendation",
+        "review"
+      ],
+      "description": "Type of update"
+    },
+    "progress_percent": {
+      "type": "number",
+      "description": "Reading progress percentage"
+    },
+    "rating": {
+      "type": "number",
+      "description": "Rating if review"
+    },
+    "user_name": {
+      "type": "string",
+      "description": "Display name of the user"
+    },
+    "likes": {
+      "type": "number",
+      "default": 0,
+      "description": "Number of likes"
+    }
+  },
+  "required": [
+    "book_title",
+    "update_type"
+  ]
+}

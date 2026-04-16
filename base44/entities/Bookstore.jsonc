@@ -1,0 +1,61 @@
+{
+  "name": "Bookstore",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Bookstore name"
+    },
+    "address": {
+      "type": "string",
+      "description": "Full address"
+    },
+    "city": {
+      "type": "string",
+      "description": "City"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Phone number"
+    },
+    "website": {
+      "type": "string",
+      "description": "Website URL"
+    },
+    "description": {
+      "type": "string",
+      "description": "Short description"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "independent",
+        "chain",
+        "used",
+        "specialty",
+        "library"
+      ],
+      "description": "Type of bookstore"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "Store image"
+    },
+    "rating": {
+      "type": "number",
+      "description": "Average rating"
+    },
+    "latitude": {
+      "type": "number",
+      "description": "Latitude coordinate"
+    },
+    "longitude": {
+      "type": "number",
+      "description": "Longitude coordinate"
+    }
+  },
+  "required": [
+    "name",
+    "city"
+  ]
+}
