@@ -45,6 +45,13 @@
       "type": "string",
       "description": "Personal notes about the book"
     },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Auto-suggested and user-confirmed reading tags"
+    },
     "start_date": {
       "type": "string",
       "format": "date",

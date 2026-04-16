@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { BookOpen, Star, Check, Bookmark, NotebookPen } from 'lucide-react';
 import AddNoteDialog from './AddNoteDialog';
+import { TagBadge } from './BookTagSuggester';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 
@@ -121,6 +122,12 @@ export default function BookCard({ book, onClick, onUpdateProgress, variant = 'd
             </div>
           )}
         </button>
+
+        {book.tags?.length > 0 && (
+          <div className="flex flex-wrap gap-1 mt-1.5">
+            {book.tags.slice(0, 2).map(t => <TagBadge key={t} tag={t} className="text-[9px] px-1.5 py-0" />)}
+          </div>
+        )}
 
         {book.status === 'reading' && (
           <div className="mt-2">

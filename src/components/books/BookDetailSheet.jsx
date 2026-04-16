@@ -7,9 +7,17 @@ import { Badge } from '@/components/ui/badge';
 import { BookOpen, Star, Pencil, Trash2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
+import BookTagSuggester, { TagBadge } from './BookTagSuggester';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
 
 export default function BookDetailSheet({ book, onClose, onEdit, onUpdateProgress, onDelete }) {
   const [page, setPage] = useState('');
+  const queryClient = useQueryClient();
+  const updateTagsMutation = useMutation({
+    mutationFn: (tags) => base44.entities.Book.update(book.id, { tags }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['books'] }),
+  });
 
   if (!book) return null;
 
@@ -95,6 +103,16 @@ export default function BookDetailSheet({ book, onClose, onEdit, onUpdateProgres
                 <p className="font-medium">{format(new Date(book.finish_date), 'MMM d, yyyy')}</p>
               </div>
             )}
+          </div>
+
+          {/* Tags */}
+          <div>
+            <Label className="text-xs text-muted-foreground mb-2 block">Tags</Label>
+            <BookTagSuggester
+              book={book}
+              currentTags={book.tags || []}
+              onTagsChange={(tags) => updateTagsMutation.mutate(tags)}
+            />
           </div>
 
           {/* Notes */}

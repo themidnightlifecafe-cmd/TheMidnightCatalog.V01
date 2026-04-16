@@ -11,10 +11,12 @@ import BookDetailSheet from '@/components/books/BookDetailSheet';
 import TBRSpinner from '@/components/books/TBRSpinner';
 import ExternalBookSearch from '@/components/books/ExternalBookSearch';
 import ISBNScanner from '@/components/books/ISBNScanner';
+import { TagBadge } from '@/components/books/BookTagSuggester';
 
 export default function Library() {
   const [tab, setTab] = useState('all');
   const [search, setSearch] = useState('');
+  const [activeTag, setActiveTag] = useState(null);
   const [addOpen, setAddOpen] = useState(false);
   const [externalSearchOpen, setExternalSearchOpen] = useState(false);
   const [scannerOpen, setScannerOpen] = useState(false);
@@ -58,12 +60,16 @@ export default function Library() {
     setEditBook(null);
   };
 
+  // Collect all tags used across library
+  const allTags = [...new Set(books.flatMap(b => b.tags || []))].sort();
+
   const filtered = books.filter((b) => {
     const matchesTab = tab === 'all' || b.status === tab;
     const matchesSearch = !search ||
       b.title?.toLowerCase().includes(search.toLowerCase()) ||
       b.author?.toLowerCase().includes(search.toLowerCase());
-    return matchesTab && matchesSearch;
+    const matchesTag = !activeTag || (b.tags || []).includes(activeTag);
+    return matchesTab && matchesSearch && matchesTag;
   });
 
   const tabCounts = {
@@ -98,6 +104,28 @@ export default function Library() {
           </Button>
         </div>
       </div>
+
+      {/* Tag filter strip */}
+      {allTags.length > 0 && (
+        <div className="flex flex-wrap gap-1.5 pb-1">
+          {activeTag && (
+            <button
+              onClick={() => setActiveTag(null)}
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-primary text-primary-foreground"
+            >
+              Clear filter ×
+            </button>
+          )}
+          {allTags.map(tag => (
+            <button key={tag} onClick={() => setActiveTag(t => t === tag ? null : tag)}>
+              <TagBadge
+                tag={tag}
+                className={activeTag === tag ? 'ring-2 ring-primary ring-offset-1 cursor-pointer' : 'cursor-pointer hover:opacity-80'}
+              />
+            </button>
+          ))}
+        </div>
+      )}
 
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1">
