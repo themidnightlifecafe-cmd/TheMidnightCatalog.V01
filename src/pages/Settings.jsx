@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/lib/AuthContext';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
-import { Moon, Sun, Monitor, Trash2, LogOut, AlertTriangle, User, Palette } from 'lucide-react';
+import { Moon, Sun, Monitor, Trash2, LogOut, AlertTriangle, User, Palette, Type } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import FontStylePicker from '@/components/settings/FontStylePicker';
 
 const THEME_OPTIONS = [
   { value: 'system', label: 'System', icon: Monitor },
@@ -109,6 +110,14 @@ export default function Settings() {
             </button>
           ))}
         </div>
+      </section>
+
+      {/* Font Customization */}
+      <section className="rounded-2xl border border-border bg-card p-5 space-y-3">
+        <h2 className="font-heading font-bold flex items-center gap-2 text-base">
+          <Type className="w-4 h-4 text-primary" /> Typography
+        </h2>
+        <FontStylePicker />
       </section>
 
       {/* Danger Zone */}
