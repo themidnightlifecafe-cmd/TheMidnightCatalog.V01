@@ -10,6 +10,7 @@ import Home from '@/pages/Home';
 import Library from '@/pages/Library';
 import Social from '@/pages/Social';
 import Bookstores from '@/pages/Bookstores';
+import Journal from '@/pages/Journal';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -42,6 +43,7 @@ const AuthenticatedApp = () => {
         <Route path="/library" element={<Library />} />
         <Route path="/social" element={<Social />} />
         <Route path="/bookstores" element={<Bookstores />} />
+        <Route path="/journal" element={<Journal />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>

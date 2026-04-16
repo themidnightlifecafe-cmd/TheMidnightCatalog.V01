@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { BookOpen, Star, Check, Bookmark } from 'lucide-react';
+import { BookOpen, Star, Check, Bookmark, NotebookPen } from 'lucide-react';
+import AddNoteDialog from './AddNoteDialog';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
 
 const statusConfig = {
   reading: { label: 'Reading', icon: BookOpen, color: 'bg-primary text-primary-foreground' },
@@ -12,6 +15,13 @@ export default function BookCard({ book, onClick, onUpdateProgress, variant = 'd
   const status = statusConfig[book.status] || statusConfig.want_to_read;
   const StatusIcon = status.icon;
   const progress = book.total_pages ? Math.round((book.current_page / book.total_pages) * 100) : 0;
+
+  const [noteOpen, setNoteOpen] = useState(false);
+  const queryClient = useQueryClient();
+  const saveNoteMutation = useMutation({
+    mutationFn: (data) => base44.entities.ReadingNote.create(data),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['reading-notes'] }),
+  });
 
   const [editing, setEditing] = useState(false);
   const [inputVal, setInputVal] = useState('');
@@ -71,7 +81,17 @@ export default function BookCard({ book, onClick, onUpdateProgress, variant = 'd
   }
 
   return (
+    <>
     <div className="group relative rounded-2xl overflow-hidden bg-card border border-border shadow-sm hover:shadow-lg transition-all duration-300 text-left">
+      {/* Note button — top-right on hover */}
+      <button
+        onClick={(e) => { e.stopPropagation(); setNoteOpen(true); }}
+        className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 hover:bg-white rounded-full p-1.5 shadow-sm"
+        title="Add a note"
+      >
+        <NotebookPen className="w-3.5 h-3.5 text-primary" />
+      </button>
+
       {/* Cover — clickable */}
       <button onClick={() => onClick?.(book)} className="block w-full">
         <div className="aspect-[2/3] bg-muted overflow-hidden">
@@ -151,5 +171,12 @@ export default function BookCard({ book, onClick, onUpdateProgress, variant = 'd
         )}
       </div>
     </div>
+    <AddNoteDialog
+      open={noteOpen}
+      onOpenChange={setNoteOpen}
+      book={book}
+      onSave={(data) => saveNoteMutation.mutate(data)}
+    />
+    </>
   );
 }

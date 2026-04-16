@@ -1,0 +1,42 @@
+{
+  "name": "ReadingNote",
+  "type": "object",
+  "properties": {
+    "book_id": {
+      "type": "string",
+      "description": "ID of the book this note belongs to"
+    },
+    "book_title": {
+      "type": "string",
+      "description": "Title of the book (denormalized for easy display)"
+    },
+    "book_cover_url": {
+      "type": "string",
+      "description": "Cover URL (denormalized)"
+    },
+    "content": {
+      "type": "string",
+      "description": "The note content"
+    },
+    "page_number": {
+      "type": "number",
+      "description": "Page number this note was made at"
+    },
+    "note_type": {
+      "type": "string",
+      "enum": [
+        "reflection",
+        "quote",
+        "question",
+        "highlight"
+      ],
+      "default": "reflection",
+      "description": "Type of note"
+    }
+  },
+  "required": [
+    "book_id",
+    "book_title",
+    "content"
+  ]
+}
