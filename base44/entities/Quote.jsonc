@@ -1,0 +1,38 @@
+{
+  "name": "Quote",
+  "type": "object",
+  "properties": {
+    "book_id": {
+      "type": "string",
+      "description": "ID of the book this quote belongs to"
+    },
+    "book_title": {
+      "type": "string",
+      "description": "Denormalized book title"
+    },
+    "text": {
+      "type": "string",
+      "description": "The highlighted quote text"
+    },
+    "page_number": {
+      "type": "number",
+      "description": "Page number where the quote appears"
+    },
+    "color": {
+      "type": "string",
+      "enum": [
+        "yellow",
+        "pink",
+        "blue",
+        "green"
+      ],
+      "default": "yellow",
+      "description": "Highlight color"
+    }
+  },
+  "required": [
+    "book_id",
+    "book_title",
+    "text"
+  ]
+}

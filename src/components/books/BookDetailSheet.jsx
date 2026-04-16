@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import BookTagSuggester, { TagBadge } from './BookTagSuggester';
 import BookFileViewer from './BookFileViewer';
+import BookQuotes from './BookQuotes';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 
@@ -129,6 +130,12 @@ export default function BookDetailSheet({ book, onClose, onEdit, onUpdateProgres
               <p className="text-sm mt-1 p-3 rounded-xl bg-muted/40">{book.notes}</p>
             </div>
           )}
+
+          {/* Quotes */}
+          <div>
+            <Label className="text-xs text-muted-foreground mb-2 block">Highlighted Quotes</Label>
+            <BookQuotes book={book} />
+          </div>
 
           {/* Actions */}
           <div className="flex gap-2 pt-4 border-t border-border">
