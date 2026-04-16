@@ -1,11 +1,12 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { BookOpen, Home, Users, MapPin, Library, NotebookPen, Trophy } from 'lucide-react';
+import { BookOpen, Home, Users, MapPin, Library, NotebookPen, Trophy, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
   { path: '/', icon: Home, label: 'Home' },
   { path: '/library', icon: Library, label: 'My Library' },
   { path: '/journal', icon: NotebookPen, label: 'Journal' },
+  { path: '/recommendations', icon: Sparkles, label: 'For You' },
   { path: '/challenges', icon: Trophy, label: 'Challenges' },
   { path: '/social', icon: Users, label: 'Friends' },
   { path: '/bookstores', icon: MapPin, label: 'Bookstores' },

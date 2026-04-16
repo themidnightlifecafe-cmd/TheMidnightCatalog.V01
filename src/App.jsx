@@ -12,6 +12,7 @@ import Social from '@/pages/Social';
 import Bookstores from '@/pages/Bookstores';
 import Journal from '@/pages/Journal';
 import Challenges from '@/pages/Challenges';
+import Recommendations from '@/pages/Recommendations';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -46,6 +47,7 @@ const AuthenticatedApp = () => {
         <Route path="/bookstores" element={<Bookstores />} />
         <Route path="/journal" element={<Journal />} />
         <Route path="/challenges" element={<Challenges />} />
+        <Route path="/recommendations" element={<Recommendations />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
