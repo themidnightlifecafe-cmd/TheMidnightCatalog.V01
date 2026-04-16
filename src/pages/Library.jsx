@@ -4,18 +4,20 @@ import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
-import { Plus, Search, BookOpen, Check, Bookmark, Library as LibraryIcon, Shuffle, Globe } from 'lucide-react';
+import { Plus, Search, BookOpen, Check, Bookmark, Library as LibraryIcon, Shuffle, Globe, ScanLine } from 'lucide-react';
 import BookCard from '@/components/books/BookCard';
 import AddBookDialog from '@/components/books/AddBookDialog';
 import BookDetailSheet from '@/components/books/BookDetailSheet';
 import TBRSpinner from '@/components/books/TBRSpinner';
 import ExternalBookSearch from '@/components/books/ExternalBookSearch';
+import ISBNScanner from '@/components/books/ISBNScanner';
 
 export default function Library() {
   const [tab, setTab] = useState('all');
   const [search, setSearch] = useState('');
   const [addOpen, setAddOpen] = useState(false);
   const [externalSearchOpen, setExternalSearchOpen] = useState(false);
+  const [scannerOpen, setScannerOpen] = useState(false);
   const [editBook, setEditBook] = useState(null);
   const [selectedBook, setSelectedBook] = useState(null);
 
@@ -85,6 +87,9 @@ export default function Library() {
           <p className="text-sm text-muted-foreground mt-1">{books.length} books in your collection</p>
         </div>
         <div className="flex gap-2">
+          <Button variant="outline" onClick={() => setScannerOpen(true)} className="gap-2">
+            <ScanLine className="w-4 h-4" /> Scan ISBN
+          </Button>
           <Button variant="outline" onClick={() => setExternalSearchOpen(true)} className="gap-2">
             <Globe className="w-4 h-4" /> Find Books
           </Button>
@@ -162,6 +167,7 @@ export default function Library() {
       )}
 
       <ExternalBookSearch open={externalSearchOpen} onOpenChange={setExternalSearchOpen} />
+      <ISBNScanner open={scannerOpen} onOpenChange={setScannerOpen} />
 
       <AddBookDialog
         open={addOpen}
