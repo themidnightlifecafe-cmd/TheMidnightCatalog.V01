@@ -13,6 +13,8 @@ import Bookstores from '@/pages/Bookstores';
 import Journal from '@/pages/Journal';
 import Challenges from '@/pages/Challenges';
 import Recommendations from '@/pages/Recommendations';
+import EveningLatte from '@/pages/EveningLatte';
+import MidnightLibrary from '@/pages/MidnightLibrary';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -48,6 +50,8 @@ const AuthenticatedApp = () => {
         <Route path="/journal" element={<Journal />} />
         <Route path="/challenges" element={<Challenges />} />
         <Route path="/recommendations" element={<Recommendations />} />
+        <Route path="/evening-latte" element={<EveningLatte />} />
+        <Route path="/midnight-library" element={<MidnightLibrary />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>
