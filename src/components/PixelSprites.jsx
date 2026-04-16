@@ -13,8 +13,8 @@ const PAGE_SPRITES = {
 };
 
 const COLORS = [
-  '#a78bfa', '#f472b6', '#fb923c', '#34d399', '#60a5fa',
-  '#facc15', '#f87171', '#4ade80', '#c084fc', '#38bdf8',
+  '#fbbf24', '#f59e0b', '#fcd34d', '#fde68a', '#f472b6',
+  '#ec4899', '#fb7185', '#f9a8d4', '#fda4af', '#fef08a',
 ];
 
 // Pixel art definitions (8x8 grids as arrays)
