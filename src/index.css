@@ -10,9 +10,9 @@
     --font-body: 'Inter', sans-serif;
 
     --background: 270 40% 14%;
-    --foreground: 40 55% 90%;
+    --foreground: 40 55% 97%;
     --card: 270 38% 18%;
-    --card-foreground: 40 55% 90%;
+    --card-foreground: 40 55% 97%;
     --popover: 270 38% 18%;
     --popover-foreground: 40 55% 90%;
     --primary: 270 75% 68%;
@@ -20,7 +20,7 @@
     --secondary: 220 70% 35%;
     --secondary-foreground: 0 0% 100%;
     --muted: 270 30% 22%;
-    --muted-foreground: 40 20% 60%;
+    --muted-foreground: 40 20% 72%;
     --accent: 38 90% 58%;
     --accent-foreground: 270 40% 14%;
     --destructive: 0 65% 50%;
