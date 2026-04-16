@@ -4,10 +4,11 @@ import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
-import { Plus, Search, BookOpen, Check, Bookmark, Library as LibraryIcon } from 'lucide-react';
+import { Plus, Search, BookOpen, Check, Bookmark, Library as LibraryIcon, Shuffle } from 'lucide-react';
 import BookCard from '@/components/books/BookCard';
 import AddBookDialog from '@/components/books/AddBookDialog';
 import BookDetailSheet from '@/components/books/BookDetailSheet';
+import TBRSpinner from '@/components/books/TBRSpinner';
 
 export default function Library() {
   const [tab, setTab] = useState('all');
@@ -68,6 +69,12 @@ export default function Library() {
     want_to_read: books.filter(b => b.status === 'want_to_read').length,
   };
 
+  const tbrBooks = books.filter(b => b.status === 'want_to_read');
+
+  const handleStartReading = (book) => {
+    updateMutation.mutate({ id: book.id, data: { status: 'reading', start_date: new Date().toISOString().split('T')[0] } });
+  };
+
   return (
     <div className="p-6 md:p-10 max-w-5xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
@@ -102,11 +109,16 @@ export default function Library() {
             <TabsTrigger value="want_to_read" className="text-xs gap-1">
               <Bookmark className="w-3 h-3" /> Wishlist ({tabCounts.want_to_read})
             </TabsTrigger>
+            <TabsTrigger value="tbr_spinner" className="text-xs gap-1">
+              <Shuffle className="w-3 h-3" /> TBR Spin
+            </TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
 
-      {isLoading ? (
+      {tab === 'tbr_spinner' ? (
+        <TBRSpinner tbrBooks={tbrBooks} onStartReading={handleStartReading} />
+      ) : isLoading ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {Array.from({ length: 8 }).map((_, i) => (
             <div key={i} className="rounded-2xl bg-muted animate-pulse aspect-[2/3.5]" />
@@ -118,7 +130,9 @@ export default function Library() {
             <BookCard key={book.id} book={book} onClick={setSelectedBook} />
           ))}
         </div>
-      ) : (
+      ) : null}
+
+      {tab !== 'tbr_spinner' && !isLoading && filtered.length === 0 && (
         <div className="text-center py-16">
           <LibraryIcon className="w-12 h-12 mx-auto text-muted-foreground/30" />
           <p className="text-muted-foreground mt-3">No books found</p>
