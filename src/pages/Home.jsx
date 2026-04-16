@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { BookOpen, ArrowRight, Sparkles, Users, MapPin, TrendingUp, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -10,6 +10,11 @@ import BookCard from '@/components/books/BookCard';
 
 export default function Home() {
   const [websiteUrl, setWebsiteUrl] = useState('');
+  const queryClient = useQueryClient();
+  const updateMutation = useMutation({
+    mutationFn: ({ id, data }) => base44.entities.Book.update(id, data),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['books'] }),
+  });
 
   const { data: currentlyReading = [] } = useQuery({
     queryKey: ['books', 'reading'],
@@ -97,7 +102,11 @@ export default function Home() {
         {currentlyReading.length > 0 ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {currentlyReading.map((book) => (
-              <BookCard key={book.id} book={book} />
+              <BookCard
+                key={book.id}
+                book={book}
+                onUpdateProgress={(id, page) => updateMutation.mutate({ id, data: { current_page: page } })}
+              />
             ))}
           </div>
         ) : (
