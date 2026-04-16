@@ -60,15 +60,16 @@ export default function Library() {
     setEditBook(null);
   };
 
-  // Collect all tags used across library
-  const allTags = [...new Set(books.flatMap(b => b.tags || []))].sort();
+  // Collect all tags used across library — guard against non-array tags
+  const allTags = [...new Set(books.flatMap(b => Array.isArray(b.tags) ? b.tags : []))].sort();
 
   const filtered = books.filter((b) => {
     const matchesTab = tab === 'all' || b.status === tab;
     const matchesSearch = !search ||
       b.title?.toLowerCase().includes(search.toLowerCase()) ||
       b.author?.toLowerCase().includes(search.toLowerCase());
-    const matchesTag = !activeTag || (b.tags || []).includes(activeTag);
+    const tags = Array.isArray(b.tags) ? b.tags : [];
+    const matchesTag = !activeTag || tags.includes(activeTag);
     return matchesTab && matchesSearch && matchesTag;
   });
 

@@ -123,7 +123,7 @@ export default function BookCard({ book, onClick, onUpdateProgress, variant = 'd
           )}
         </button>
 
-        {book.tags?.length > 0 && (
+        {Array.isArray(book.tags) && book.tags.length > 0 && (
           <div className="flex flex-wrap gap-1 mt-1.5">
             {book.tags.slice(0, 2).map(t => <TagBadge key={t} tag={t} className="text-[9px] px-1.5 py-0" />)}
           </div>
