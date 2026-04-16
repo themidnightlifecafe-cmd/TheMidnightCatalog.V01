@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { motion } from 'framer-motion';
 import BookCard from '@/components/books/BookCard';
+import PopularPicks from '@/components/books/PopularPicks';
 
 export default function Home() {
   const [websiteUrl, setWebsiteUrl] = useState('');
@@ -24,6 +25,11 @@ export default function Home() {
   const { data: recentUpdates = [] } = useQuery({
     queryKey: ['social-updates-home'],
     queryFn: () => base44.entities.SocialUpdate.list('-created_date', 3),
+  });
+
+  const { data: allBooks = [] } = useQuery({
+    queryKey: ['books'],
+    queryFn: () => base44.entities.Book.list(),
   });
 
   return (
@@ -118,6 +124,15 @@ export default function Home() {
             </Link>
           </div>
         )}
+      </motion.section>
+
+      {/* Popular Picks */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.35 }}
+      >
+        <PopularPicks existingBooks={allBooks} />
       </motion.section>
 
       {/* Recent Friend Activity */}
